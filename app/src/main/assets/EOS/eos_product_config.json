@@ -1,0 +1,53 @@
+{
+  "ProductName": "Flappy Bird",
+  "ProductId": "36082ce08c3f402f8155bb3a2fd8afeb",
+  "ProductVersion": "1.1",
+  "imported": true,
+  "Clients": [
+    {
+      "Value": {
+        "ClientId": "xyza7891zRuIzvs8Tjpl44Nje28HSSBa",
+        "ClientSecret": "f9pWOcoRYNvYzKHFGdKy4f4CWEKC/C4dhCIDa/rheis",
+        "EncryptionKey": "96BB17CD93ECF46DCAE156C4D3BE53ED2D6605EE6AE0D9AEDAFC0D0DAC6934D3"
+      },
+      "Name": "Client"
+    }
+  ],
+  "Environments": {
+    "Deployments": [
+      {
+        "Value": {
+          "SandboxId": {
+            "Value": "p-d8dx3ce5hgqs8ym6vlqsytywf8uq7p"
+          },
+          "DeploymentId": "d952be9af3ad49caac3d3c33ba64a085"
+        },
+        "Name": "Dev"
+      },
+      {
+        "Value": {
+          "SandboxId": {
+            "Value": "b9c4c9ba8d9a4902870f1881ae889ddc"
+          },
+          "DeploymentId": "ec2242092c9f4239a930f41d9ff36c86"
+        },
+        "Name": "Live"
+      }
+    ],
+    "Sandboxes": [
+      {
+        "Value": {
+          "Value": "p-d8dx3ce5hgqs8ym6vlqsytywf8uq7p"
+        },
+        "Name": "Dev"
+      },
+      {
+        "Value": {
+          "Value": "b9c4c9ba8d9a4902870f1881ae889ddc"
+        },
+        "Name": "Live"
+      }
+    ]
+  },
+  "schemaVersion": "1.0"
+}

@@ -1,0 +1,145 @@
+name: Cloud JADX + APKTool Decompile (AI Studio Safe)
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  decompile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Download source APK from Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/apk_work
+          gh release download source-apk --pattern "*.apk" --dir /tmp/apk_work --clobber
+          ls -lh /tmp/apk_work
+
+      - name: Install JADX and APKTool
+        run: |
+          JADX_VER="1.5.1"
+          curl -sSL "https://github.com/skylot/jadx/releases/download/v${JADX_VER}/jadx-${JADX_VER}.zip" -o /tmp/jadx.zip
+          unzip -q /tmp/jadx.zip -d /tmp/jadx
+          chmod +x /tmp/jadx/bin/jadx
+
+          APKTOOL_VER="2.11.1"
+          curl -sSL "https://github.com/iBotPeaches/Apktool/releases/download/v${APKTOOL_VER}/apktool_${APKTOOL_VER}.jar" -o /tmp/apktool.jar
+
+      - name: Run JADX (deobfuscated Java) & APKTool (resources)
+        run: |
+          APK_FILE=$(find /tmp/apk_work -name "*.apk" | head -n 1)
+          /tmp/jadx/bin/jadx \
+            --deobf \
+            --deobf-min 3 \
+            --deobf-max 64 \
+            --show-bad-code \
+            --no-res \
+            -d /tmp/jadx_out \
+            "$APK_FILE" || true
+
+          java -Xmx2g -jar /tmp/apktool.jar d -f -s -o /tmp/apktool_out "$APK_FILE" || true
+
+      - name: Optimize JADX output for AI Studio (< 880 total files)
+        run: |
+          python3 - << 'PYEOF'
+          import os, shutil, pathlib
+
+          repo_root = pathlib.Path(".")
+          jadx_src = pathlib.Path("/tmp/jadx_out/sources")
+          out_dir = repo_root / "reference_jadx"
+          if out_dir.exists():
+              shutil.rmtree(out_dir)
+          out_dir.mkdir(parents=True, exist_ok=True)
+
+          # Skip common third-party SDKs so 100% of app logic fits cleanly
+          SKIP_PREFIXES = (
+              "androidx/", "android/", "kotlin/", "kotlinx/", "java/", "javax/",
+              "com/google/android/", "com/google/firebase/", "com/google/gson/",
+              "com/google/common/", "com/google/protobuf/", "okhttp3/", "okio/",
+              "retrofit2/", "org/jetbrains/", "org/apache/", "org/json/",
+              "com/facebook/", "com/applovin/", "com/unity3d/ads/", "com/vungle/",
+              "com/mbridge/", "com/bytedance/", "com/ironsource/", "com/chartboost/"
+          )
+
+          existing_files = sum(
+              1 for p in repo_root.rglob("*")
+              if p.is_file() and ".git" not in p.parts
+          )
+          budget = max(20, 880 - existing_files)
+
+          java_files = []
+          if jadx_src.exists():
+              for f in sorted(jadx_src.rglob("*.java")):
+                  rel = f.relative_to(jadx_src).as_posix()
+                  if any(rel.startswith(sp) for sp in SKIP_PREFIXES):
+                      continue
+                  if f.name in ("R.java", "BuildConfig.java"):
+                      continue
+                  java_files.append((rel, f))
+
+          # Prefer app package prefix first if present
+          app_prefix = "epic/org"
+          if app_prefix:
+              matched = [x for x in java_files if x[0].startswith(app_prefix)]
+              if len(matched) >= 3:
+                  java_files = matched
+
+          if len(java_files) <= budget:
+              for rel, src in java_files:
+                  dst = out_dir / rel
+                  dst.parent.mkdir(parents=True, exist_ok=True)
+                  shutil.copy2(src, dst)
+          else:
+              # Bundle by package into <= budget files so ZERO app classes are dropped
+              by_pkg = {}
+              for rel, src in java_files:
+                  pkg = rel.rsplit("/", 1)[0].replace("/", "_") if "/" in rel else "default_pkg"
+                  by_pkg.setdefault(pkg, []).append((rel, src))
+              if len(by_pkg) <= budget:
+                  for pkg, items in by_pkg.items():
+                      dst = out_dir / f"bundle_{pkg}.java"
+                      with dst.open("w", encoding="utf-8", errors="ignore") as w:
+                          for rel, src in items:
+                              w.write(f"\n// ===== FILE: {rel} =====\n")
+                              w.write(src.read_text(encoding="utf-8", errors="ignore"))
+              else:
+                  chunk_size = max(1, (len(java_files) + budget - 1) // budget)
+                  for idx in range(0, len(java_files), chunk_size):
+                      part_no = (idx // chunk_size) + 1
+                      dst = out_dir / f"jadx_part_{part_no:02d}.java"
+                      with dst.open("w", encoding="utf-8", errors="ignore") as w:
+                          for rel, src in java_files[idx:idx + chunk_size]:
+                              w.write(f"\n// ===== FILE: {rel} =====\n")
+                              w.write(src.read_text(encoding="utf-8", errors="ignore"))
+
+          # Save APKTool decoded AndroidManifest & styles if present
+          apktool_manifest = pathlib.Path("/tmp/apktool_out/AndroidManifest.xml")
+          if apktool_manifest.exists():
+              docs_dir = repo_root / "docs"
+              docs_dir.mkdir(exist_ok=True)
+              shutil.copy2(apktool_manifest, docs_dir / "apktool_AndroidManifest.xml")
+
+          print(f"Exported {len(java_files)} JADX Java classes within AI Studio <880 file budget.")
+          PYEOF
+
+      - name: Commit Cloud JADX output
+        run: |
+          git config user.name "Android Reverse IDE Bot"
+          git config user.email "actions@github.com"
+          git add reference_jadx docs/
+          if git diff --cached --quiet; then
+            echo "No new JADX changes to commit."
+          else
+            git commit -m "Add Cloud JADX decompiled Java (AI Studio Safe) [skip ci]"
+            git push origin HEAD:${{ github.event.repository.default_branch }}
+          fi

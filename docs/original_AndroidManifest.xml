@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:versionCode="21"
+  android:versionName="1.5"
+  android:installLocation="2"
+  android:compileSdkVersion="35"
+  android:compileSdkVersionCodename="15"
+  package="epic.org.flappybird"
+  platformBuildVersionCode="35"
+  platformBuildVersionName="15">
+  <uses-sdk
+    android:minSdkVersion="23"
+    android:targetSdkVersion="35">
+  </uses-sdk>
+  <supports-screens
+    android:anyDensity="true"
+    android:smallScreens="true"
+    android:normalScreens="true"
+    android:largeScreens="true"
+    android:xlargeScreens="true">
+  </supports-screens>
+  <uses-permission android:name="android.permission.INTERNET">
+  </uses-permission>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE">
+  </uses-permission>
+  <uses-feature android:glEsVersion="0x30000">
+  </uses-feature>
+  <uses-feature
+    android:name="android.hardware.vulkan.version"
+    android:required="false">
+  </uses-feature>
+  <uses-feature
+    android:name="android.hardware.touchscreen"
+    android:required="false">
+  </uses-feature>
+  <uses-feature
+    android:name="android.hardware.touchscreen.multitouch"
+    android:required="false">
+  </uses-feature>
+  <uses-feature
+    android:name="android.hardware.touchscreen.multitouch.distinct"
+    android:required="false">
+  </uses-feature>
+  <uses-permission android:name="com.google.android.gms.permission.AD_ID">
+  </uses-permission>
+  <uses-permission android:name="android.permission.ACCESS_ADSERVICES_TOPICS">
+  </uses-permission>
+  <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION">
+  </uses-permission>
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.VIEW">
+      </action>
+      <category android:name="android.intent.category.BROWSABLE">
+      </category>
+      <data android:scheme="https">
+      </data>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.SEND">
+      </action>
+      <data android:mimeType="*/*">
+      </data>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.SEND_MULTIPLE">
+      </action>
+      <data android:mimeType="*/*">
+      </data>
+    </intent>
+  </queries>
+  <queries>
+    <intent>
+      <action android:name="android.support.customtabs.action.CustomTabsService">
+      </action>
+    </intent>
+  </queries>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE">
+  </uses-permission>
+  <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION">
+  </uses-permission>
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE">
+  </uses-permission>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE">
+  </uses-permission>
+  <uses-permission android:name="android.permission.WAKE_LOCK">
+  </uses-permission>
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED">
+  </uses-permission>
+  <uses-permission android:name="android.permission.FOREGROUND_SERVICE">
+  </uses-permission>
+  <permission
+    android:name="epic.org.flappybird.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+    android:protectionLevel="0x2">
+  </permission>
+  <uses-permission android:name="epic.org.flappybird.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION">
+  </uses-permission>
+  <application
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen"
+    android:label="@string/app_name"
+    android:icon="@mipmap/app_icon"
+    android:extractNativeLibs="true"
+    android:usesCleartextTraffic="true"
+    android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+    <meta-data
+      android:name="unity.splash-mode"
+      android:value="2">
+    </meta-data>
+    <meta-data
+      android:name="unity.splash-enable"
+      android:value="true">
+    </meta-data>
+    <meta-data
+      android:name="unity.launch-fullscreen"
+      android:value="true">
+    </meta-data>
+    <meta-data
+      android:name="unity.render-outside-safearea"
+      android:value="true">
+    </meta-data>
+    <meta-data
+      android:name="notch.config"
+      android:value="portrait|landscape">
+    </meta-data>
+    <meta-data
+      android:name="unity.auto-report-fully-drawn"
+      android:value="true">
+    </meta-data>
+    <activity
+      android:theme="@style/UnityThemeSelector"
+      android:name="com.unity3d.player.UnityPlayerActivity"
+      android:exported="true"
+      android:launchMode="2"
+      android:screenOrientation="1"
+      android:configChanges="0x40003fff"
+      android:hardwareAccelerated="false"
+      android:resizeableActivity="false">
+      <intent-filter>
+        <category android:name="android.intent.category.LAUNCHER">
+        </category>
+        <action android:name="android.intent.action.MAIN">
+        </action>
+      </intent-filter>
+      <meta-data
+        android:name="unityplayer.UnityActivity"
+        android:value="true">
+      </meta-data>
+      <meta-data
+        android:name="notch_support"
+        android:value="true">
+      </meta-data>
+    </activity>
+    <activity
+      android:theme="@0x01030007"
+      android:name="com.unity3d.services.ads.adunit.AdUnitActivity"
+      android:exported="false"
+      android:configChanges="0x40000fff"
+      android:hardwareAccelerated="true">
+    </activity>
+    <activity
+      android:theme="@0x01030011"
+      android:name="com.unity3d.services.ads.adunit.AdUnitTransparentActivity"
+      android:exported="false"
+      android:configChanges="0x40000fff"
+      android:hardwareAccelerated="true">
+    </activity>
+    <activity
+      android:theme="@0x01030011"
+      android:name="com.unity3d.services.ads.adunit.AdUnitTransparentSoftwareActivity"
+      android:exported="false"
+      android:configChanges="0x40000fff"
+      android:hardwareAccelerated="false">
+    </activity>
+    <activity
+      android:theme="@0x01030007"
+      android:name="com.unity3d.services.ads.adunit.AdUnitSoftwareActivity"
+      android:exported="false"
+      android:configChanges="0x40000fff"
+      android:hardwareAccelerated="false">
+    </activity>
+    <activity
+      android:theme="@0x01030007"
+      android:name="com.unity3d.ads.adplayer.FullScreenWebViewDisplay"
+      android:exported="false"
+      android:configChanges="0x40000fff"
+      android:hardwareAccelerated="true">
+    </activity>
+    <provider
+      android:name="androidx.startup.InitializationProvider"
+      android:exported="false"
+      android:authorities="epic.org.flappybird.androidx-startup">
+      <meta-data
+        android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+        android:value="androidx.startup">
+      </meta-data>
+      <meta-data
+        android:name="com.unity3d.services.core.configuration.AdsSdkInitializer"
+        android:value="androidx.startup">
+      </meta-data>
+      <meta-data
+        android:name="androidx.work.WorkManagerInitializer"
+        android:value="androidx.startup">
+      </meta-data>
+      <meta-data
+        android:name="androidx.emoji2.text.EmojiCompatInitializer"
+        android:value="androidx.startup">
+      </meta-data>
+      <meta-data
+        android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+        android:value="androidx.startup">
+      </meta-data>
+    </provider>
+    <activity
+      android:name="com.epicgames.mobile.eossdk.EOSAuthHandlerActivity"
+      android:exported="true"
+      android:configChanges="0x4a0"
+      android:noHistory="true">
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW">
+        </action>
+        <category android:name="android.intent.category.DEFAULT">
+        </category>
+        <category android:name="android.intent.category.BROWSABLE">
+        </category>
+        <data android:scheme="eos.xyza7891zruizvs8tjpl44nje28hssba">
+        </data>
+      </intent-filter>
+    </activity>
+    <activity
+      android:theme="@style/Theme.NativeShareTransparent"
+      android:name="com.yasirkula.unity.NativeShareCustomShareDialogActivity"
+      android:exported="false">
+    </activity>
+    <receiver
+      android:name="com.yasirkula.unity.NativeShareBroadcastListener"
+      android:exported="false">
+    </receiver>
+    <provider
+      android:name="com.yasirkula.unity.NativeShareContentProvider"
+      android:exported="false"
+      android:authorities="epic.org.flappybird.NativeShareContentProvider"
+      android:grantUriPermissions="true">
+    </provider>
+    <activity
+      android:theme="@0x01030010"
+      android:name="com.google.android.gms.common.api.GoogleApiActivity"
+      android:exported="false">
+    </activity>
+    <meta-data
+      android:name="com.google.android.gms.version"
+      android:value="@integer/google_play_services_version">
+    </meta-data>
+    <service
+      android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"
+      android:enabled="@bool/enable_system_alarm_service_default"
+      android:exported="false"
+      android:directBootAware="false">
+    </service>
+    <service
+      android:name="androidx.work.impl.background.systemjob.SystemJobService"
+      android:permission="android.permission.BIND_JOB_SERVICE"
+      android:enabled="@bool/enable_system_job_service_default"
+      android:exported="true"
+      android:directBootAware="false">
+    </service>
+    <service
+      android:name="androidx.work.impl.foreground.SystemForegroundService"
+      android:enabled="@bool/enable_system_foreground_service_default"
+      android:exported="false"
+      android:directBootAware="false">
+    </service>
+    <receiver
+      android:name="androidx.work.impl.utils.ForceStopRunnable$BroadcastReceiver"
+      android:enabled="true"
+      android:exported="false"
+      android:directBootAware="false">
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryChargingProxy"
+      android:enabled="false"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="android.intent.action.ACTION_POWER_CONNECTED">
+        </action>
+        <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$BatteryNotLowProxy"
+      android:enabled="false"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BATTERY_OKAY">
+        </action>
+        <action android:name="android.intent.action.BATTERY_LOW">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$StorageNotLowProxy"
+      android:enabled="false"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="android.intent.action.DEVICE_STORAGE_LOW">
+        </action>
+        <action android:name="android.intent.action.DEVICE_STORAGE_OK">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.ConstraintProxy$NetworkStateProxy"
+      android:enabled="false"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="android.net.conn.CONNECTIVITY_CHANGE">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.RescheduleReceiver"
+      android:enabled="false"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="android.intent.action.BOOT_COMPLETED">
+        </action>
+        <action android:name="android.intent.action.TIME_SET">
+        </action>
+        <action android:name="android.intent.action.TIMEZONE_CHANGED">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.background.systemalarm.ConstraintProxyUpdateReceiver"
+      android:enabled="@bool/enable_system_alarm_service_default"
+      android:exported="false"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="androidx.work.impl.background.systemalarm.UpdateProxies">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.work.impl.diagnostics.DiagnosticsReceiver"
+      android:permission="android.permission.DUMP"
+      android:enabled="true"
+      android:exported="true"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS">
+        </action>
+      </intent-filter>
+    </receiver>
+    <receiver
+      android:name="androidx.profileinstaller.ProfileInstallReceiver"
+      android:permission="android.permission.DUMP"
+      android:enabled="true"
+      android:exported="true"
+      android:directBootAware="false">
+      <intent-filter>
+        <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE">
+        </action>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="androidx.profileinstaller.action.SKIP_FILE">
+        </action>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="androidx.profileinstaller.action.SAVE_PROFILE">
+        </action>
+      </intent-filter>
+      <intent-filter>
+        <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION">
+        </action>
+      </intent-filter>
+    </receiver>
+    <service
+      android:name="androidx.room.MultiInstanceInvalidationService"
+      android:exported="false"
+      android:directBootAware="true">
+    </service>
+  </application>
+</manifest>

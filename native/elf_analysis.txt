@@ -1,0 +1,14 @@
+- lib/arm64-v8a/libEOSSDK.so (21.8 MB)
+- lib/arm64-v8a/libUnityHelpers_Android.so (34 KB) | ARM64 64-bit | PIE=true | NX=true | RELRO=true
+- lib/arm64-v8a/lib_burst_generated.so (189 KB) | ARM64 64-bit | PIE=true | NX=true | RELRO=true
+- lib/arm64-v8a/libc++_shared.so (890 KB) | ARM64 64-bit | PIE=true | NX=true | RELRO=true
+- lib/arm64-v8a/libil2cpp.so (76.7 MB)
+- lib/arm64-v8a/libmain.so (6 KB) | ARM64 64-bit | PIE=true | NX=true | RELRO=true
+- lib/arm64-v8a/libunity.so (23.9 MB)
+- lib/armeabi-v7a/libEOSSDK.so (17.2 MB)
+- lib/armeabi-v7a/libUnityHelpers_Android.so (17 KB) | ARMv7 32-bit | PIE=true | NX=true | RELRO=true
+- lib/armeabi-v7a/lib_burst_generated.so (183 KB) | ARMv7 32-bit | PIE=true | NX=true | RELRO=true
+- lib/armeabi-v7a/libc++_shared.so (541 KB) | ARMv7 32-bit | PIE=true | NX=true | RELRO=true
+- lib/armeabi-v7a/libil2cpp.so (64.7 MB)
+- lib/armeabi-v7a/libmain.so (8 KB) | ARMv7 32-bit | PIE=true | NX=true | RELRO=true
+- lib/armeabi-v7a/libunity.so (17.3 MB)
